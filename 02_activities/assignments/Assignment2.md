@@ -59,6 +59,86 @@ Your answer...
 
 ***
 
+
+
+
+## Section 1: Your Answer
+# Assignment 2 – Design a Logical Model and Advanced SQL
+**Participant:** Nneka Asuzu  
+**Date:** August 17, 2025
+
+### Prompt 1: Logical Model for a Small Bookstore
+
+I designed a logical model for a small bookstore using the following tables. The relationships are designed to minimize redundancy while keeping the tables well-structured and easy to query for operational and analytical purposes.
+
+- **Employee**: Stores employee details such as `employee_id`, `first_name`, `last_name`, `hire_date`, and `job_title`.  
+  Tracks who works at the bookstore and supports linking to orders and employee shifts.
+
+- **Customer**: Stores customer details including `customer_id`, `first_name`, `last_name`, `email`, and `phone`.  
+  Captures buyers’ information and supports linking to orders.
+
+- **Book**: Contains descriptive information about each book, such as `book_id`, `title`, `author`, `isbn`, `genre`, and `price`.  
+  Works together with the Inventory table to represent stock and track book details.
+
+- **Inventory**: Tracks stock for each book with fields `inventory_id` (primary key), `book_id` (foreign key to Book), `quantity_on_hand`, and `reorder_level`.  
+  This allows inventory levels and restocking thresholds to be managed separately from book details, without duplicating book information.
+
+- **Order**: Records each sales order with fields such as `order_id`, `customer_id` (linking to Customer), `employee_id` (linking to Employee), and `date_id` (linking to Date).  
+  Links each order to the customer who placed it, the employee who processed it, and the date of the transaction, ensuring sales can be traced to both the buyer, the staff member responsible, and the time of purchase for reporting purposes.
+
+- **Sales**: Stores line-item details for each order, including `sale_id`, `order_id` (linking to Order), `book_id` (linking to Book), `quantity`, and `unit_price`.  
+  Allows multiple books per order without duplicating customer or employee data.
+
+- **Date**: Contains date attributes such as `date_id`, `full_date`, `day`, `month`, and `year`.  
+  Linked to orders and employee shifts to support reporting and analytics over time.
+
+
+---
+
+
+
+### Prompt 2: Employee Shifts
+
+- **Shift**: Defines work shifts with fields such as `shift_id`, `shift_name`, `start_time`, and `end_time`.  
+  Morning and Evening shifts are included to manage daily scheduling.
+
+- **Employee_Shift**: Links employees to specific shifts on specific dates using `employee_id`, `shift_id`, and `date_id`.  
+  This table allows flexible scheduling without duplicating employee or shift information.
+
+---
+
+### Prompt 3: Customer Address Architectures
+
+- **Customer_Address_Type1 (Overwrite / Type 1 SCD)**:  
+  Contains `customer_id`, `street`, `city`, `postal_code`, `province`, and `country`.  
+  When a customer updates their address, the old information is overwritten.  
+  Use case: Only the latest address matters.
+
+- **Customer_Address_Type2 (Retain History / Type 2 SCD)**:  
+  Contains `customer_address_id` (primary key), `customer_id`, `street`, `city`, `postal_code`, `province`, `country`, `start_date`, `end_date`, and `is_current`.  
+  Keeps a record of all previous addresses for historical reporting.  
+  Use case: Track address changes over time for analytics or auditing.
+
+**Type 1** = Overwrite / no history  
+**Type 2** = Retain changes / full history
+
+---
+
+### ERD Diagrams
+
+#### ERD #1 – Main Bookstore Logical Model (Type 1 Address)
+![Bookstore ERD #1 – Type 1 Address](Bookstore_ERD1_Type1_MainModel.png)
+
+#### ERD #2 – Bookstore (Type 2: Retain Customer Address History)
+![Bookstore ERD #2 – Type 2 Address History](Bookstore_ERD2_Type2_AddressHistory.png)
+
+
+
+
+
+
+
+
 ## Section 2:
 You can start this section following *session 4*.
 
